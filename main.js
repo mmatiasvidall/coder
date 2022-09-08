@@ -1,21 +1,13 @@
-const express = require('express')
-const fs = require('fs');
-
+const express = require("express");
 const app = express();
+const productosRouter = require("./productos");
 
-app.get("/productos", (req, res) => {
-    const data = fs.readFileSync('./productos.json', 'utf-8');
-    const productos = JSON.parse(data);
-    res.send(productos);
-});
-app.get("/productoRandom", (req, res) => {
-    const data = fs.readFileSync('./productos.json', 'utf-8');
-    const productos = JSON.parse(data);
-    const aleatorio = productos[Math.floor(Math.random() * productos.length)];
-    res.send(aleatorio);
-});
 
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+app.use("/api/productos", productosRouter);
+app.use("/", express.static(__dirname + "/assets"));
 
 const server = app.listen(8080, () => {
     console.log(`servidor iniciado`)
-});
+}); 
