@@ -19,8 +19,8 @@ const hbs = handlebars.engine({
 //////////Views Engine/////////////////
 app.engine("hbs", hbs)
 app.set("views", "./views");
-// app.set("view engine", "hbs");
-app.set("view engine", "pug");
+app.set("view engine", "hbs");
+// app.set("view engine", "pug");
 // app.set("view engine", "ejs");
 
 //////////Funciones//////////////////
@@ -32,9 +32,9 @@ app.get("/productos", (req,res) => {
     const data = fs.readFileSync("./productos.json" , "utf-8")
     const productos = JSON.parse(data)
     if (productos.length>0){
-        res.render("tabla", {layout:"tabla", productos: productos})
+        res.render("main", {layout:"tabla", productos: productos})
     } else{
-        res.render("err", {layout:"err"})
+        res.render("main", {layout:"err"})
     }
 });
 
@@ -43,7 +43,6 @@ app.post("/productos", (req,res) => {
     const data = fs.readFileSync("./productos.json", "utf-8")
     const producto = JSON.parse(data);
     const {nombre, precio, logo} = req.body;
-    console.log(req.body)
     const productoNuevo = ({nombre, precio, logo});
     producto.push(productoNuevo);
     const productosString = JSON.stringify(producto);

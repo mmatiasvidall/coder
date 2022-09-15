@@ -23,15 +23,15 @@ html
                             a(class="nav-link" href="/registro") Registro
         main(role="main" class="container")
             h1(class="mt-5") Productos 
-            table(class="table table-dark" style="width:100%")
+            table(class="table table-dark")
                 thead
                     tr
                         th(scope="col") Nombre 
                         th(scope="col") Precio 
                         th(scope="col") Logo 
                 tbody
-                    tr 
-                        each val in productos 
+                    each val in productos 
+                        tr 
                             th(scope='col')=val.nombre
                             th(scope='col')=val.precio
                             th(scope='col')
