@@ -25,10 +25,10 @@
   <body>
     <!--///////////////Formulario//////////////////////-->
     <h2>Agregar Producto</h2>
-    <form action="/api/post" method="post">
-      Nombre <input type="text" name="nombre" />
-      Precio <input type="text" name="precio" />
-      Logo Url <input type="text" name="logo" />
+    <form onsubmit="return enviarProducto(this)">
+      Nombre <input placeholder="nombre" type="text" id="nombreProd" name="nombreProd"/>
+      Precio <input placeholder="precio" type="text" id="precio" name="precio"/>
+      Logo Url <input placeholder="url imagen" type="text" id="logo" name="logo"/>
       <button>Enviar</button>
     </form>
     <!--////////////// TABLA ///////////////////-->
@@ -42,14 +42,12 @@
             <th scope="col">Logo</th>
           </tr>
         </thead>
-        <tbody>
-            {{#each productos}}
-                <tr>
-                    <th scope="col">{{this.nombre}}</th>
-                    <th scope="col">{{this.precio}}</th>
-                    <th scope="col"><img class="mb-4" src="{{this.logo}}" alt="" width="50" height="50"/></th>
-                </tr>
-            {{/each}}
+        <tbody id="productos"> 
+          <tr>
+            <th scope="col"></th>
+            <th scope="col"></th>
+            <th scope="col"><img class="mb-4" src="" alt="" width="50" height="50"/></th>
+          </tr>
         </tbody>
       </table>
     </main>

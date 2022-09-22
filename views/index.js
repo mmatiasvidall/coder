@@ -1,3 +1,5 @@
+const socket = io.connect();
+
 function render(data) {
     const html = data
       .map(
@@ -11,8 +13,6 @@ function render(data) {
       .join(" ");
     document.getElementById("mensajes").innerHTML = html;
   }
-
-  const socket = io.connect();
   
 function enviarMensaje(event) {
   const current_datetime = new Date();
@@ -24,7 +24,30 @@ function enviarMensaje(event) {
   return false;
 }
 
+function renderProducto (prod) {
+  const html = prod.map(
+      (elem) => `<tr>
+      <th scope="col">${elem.nombre}</th>
+      <th scope="col">${elem.precio}</th>
+      <th scope="col"><img class="mb-4" src="${elem.logo}" alt="" width="50" height="50"/></th>
+  </tr> `
+    )
+    .join(" ");
+  document.getElementById("productos").innerHTML = html;
+}
+
+function enviarProducto(prod) {
+  const nombreProd = document.getElementById("nombreProd").value;
+  const precio = document.getElementById("precio").value;
+  const logo = document.getElementById("logo").value;
+  socket.emit("new_producto", { nombre: nombreProd, precio: precio, logo: logo});
+  return false;
+}
+
   socket.on("mensajes", (data) => {
     console.log(data);
     render(data);
+  });
+  socket.on("productos", (prod) => {
+    renderProducto(prod);
   });
