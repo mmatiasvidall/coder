@@ -32,15 +32,17 @@ app.get('/', (req,res) => {
 });
 
 ///////////Socket/////////////////////
-const mensajes = []
 io.on('connection', function(socket) {
+    const base = fs.readFileSync("./mensajes.json", "utf-8");
+    const mensajes = JSON.parse(base);
     console.log('usuario conectado');
     socket.emit('mensajes', mensajes);
 
     socket.on('new_msg', (data) => {
         mensajes.push(data);
-
-        io.sockets.emit("mensajes", mensajes)
+        const mensajesString = JSON.stringify(mensajes);
+        fs.writeFileSync('./mensajes.json',mensajesString);
+        io.sockets.emit("mensajes", mensajesString)
     });
 });
 

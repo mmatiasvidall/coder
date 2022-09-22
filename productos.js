@@ -16,7 +16,8 @@ router.post('/post', (req,res) => {
     } catch (err) {
         console.log(err)
     }
-})
+});
+
 
 ///// IMPORTANTE PARA QUE FUNCIONE ROUTER
 module.exports = router

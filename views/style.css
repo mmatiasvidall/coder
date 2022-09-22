@@ -116,7 +116,8 @@ body {
   }
   
   .chat .chat-history .message-data-time {
-    color: #434651;
+    color: blue;
+    font-weight: bold;
     padding-left: 6px;
   }
   
@@ -146,6 +147,8 @@ body {
   
   .chat .chat-history .my-message {
     background: #efefef;
+    color: green;
+    font-style: italic;
   }
   
   .chat .chat-history .my-message:after {
@@ -254,3 +257,6 @@ body {
       overflow-x: auto;
     }
   }
+  #date {
+    color: brown;
+  };
