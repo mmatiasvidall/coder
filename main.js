@@ -13,7 +13,7 @@ app.use("/api/carrito", carritoRouter);
 
 const hbs = handlebars.engine({
     extname: "hbs",
-    layoutsDir: "./views/layout",
+    layoutsDir: "./views/layouts/",
 });
 
 app.engine("hbs", hbs)
@@ -25,6 +25,10 @@ app.get('/api/productos', (req,res) => {
     const productos = JSON.parse(data)
     res.render("main", {layout: "tarjetas", productos: productos});
 });
+app.get('*',function (req, res) {
+    res.send(404, "Ruta no existente");
+});
+
 app.listen(8080, (req,res) => {
     console.log("conectado")
 });

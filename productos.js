@@ -4,6 +4,15 @@ const router  = Router();
 const Contenedor = require("./class");
 const constructor = new Contenedor("./Productos.json")
 
+const isAdmin = false;
+const protegida = (req,res,next) => {
+  if(isAdmin) {
+    next()
+  } else {
+    res.send(403, "Acceso denegado")
+  }
+}
+
 router.get("/:id", (req, res) => {
     try { 
         const {id} = req.params;
@@ -13,7 +22,7 @@ router.get("/:id", (req, res) => {
         }
 })
 
-router.post("/", (req, res) => {
+router.post("/",protegida, (req, res) => {
     try { 
     const {nombre, precio, logo, descripcion, codigo, stock} = req.body;
     const Producto = {
@@ -25,7 +34,7 @@ router.post("/", (req, res) => {
     }
   });
 
-  router.put("/:id", (req, res) => {
+  router.put("/:id",protegida, (req, res) => {
     try {
       const {id} = req.params;
       const {nombre, precio, logo, descripcion, codigo, stock} = req.body;
@@ -36,7 +45,7 @@ router.post("/", (req, res) => {
     }
   });
 
-  router.delete('/:id', (req,res) => {
+  router.delete('/:id',protegida, (req,res) => {
     const {id} = req.params;
     res.send(constructor.delete(id))
   });
