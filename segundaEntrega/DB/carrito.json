@@ -1,0 +1,45 @@
+[
+  {
+    "id": 1,
+    "timestamp": "2022-9-30 15:42:46",
+    "productosList": [
+      {
+        "nombre": "Remera",
+        "precio": 999.99,
+        "logo": "https://cdn1.iconfinder.com/data/icons/life-style-and-activities-fill-outline/64/shirt-t-tshirt-sport-apparel-clothes-cotton-512.png",
+        "descripcion": "Remeras de Algodón de excelente calidad, Confeccionamos con telas de primera calidad, Algodón 100% jersey 24/1 de textura suave y liviana.",
+        "codigo": 562132,
+        "stock": 22,
+        "id": 1,
+        "timestamp": "2022-9-30 15:35:8"
+      },
+      {
+        "nombre": "Pantalon",
+        "precio": 777.99,
+        "logo": "https://cdn3.iconfinder.com/data/icons/fashion-beauty-vol-1/512/trousers_pants_tactical_cargo-512.png",
+        "descripcion": "Pantalón Cargo Hombre de Gabardina Elastizada, Jogger Con Bolsillos al Costado - Excelente calce y confección.",
+        "codigo": 406783,
+        "stock": 12,
+        "id": 2,
+        "timestamp": "2022-9-30 15:38:58"
+      }
+    ]
+  },
+  {
+    "productosList": [
+      {
+        "nombre": "Remera",
+        "precio": 999.99,
+        "logo": "https://cdn1.iconfinder.com/data/icons/life-style-and-activities-fill-outline/64/shirt-t-tshirt-sport-apparel-clothes-cotton-512.png",
+        "descripcion": "Remeras de Algodón de excelente calidad, Confeccionamos con telas de primera calidad, Algodón 100% jersey 24/1 de textura suave y liviana.",
+        "codigo": 562132,
+        "stock": 22,
+        "id": 1,
+        "timestamp": "2022-9-30 15:35:8"
+      }
+    ],
+    "id": 2,
+    "timestamp": "2022-9-30 15:48:19"
+  },
+  { "productosList": [], "id": 3, "timestamp": "2022-10-4 15:20:11" }
+]

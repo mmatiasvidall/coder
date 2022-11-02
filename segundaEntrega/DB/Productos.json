@@ -1,0 +1,32 @@
+[
+ {
+  "nombre": "Remera",
+  "precio": 999.99,
+  "logo": "https://imgs.search.brave.com/qWxRuB2qBIjtaBTav-5Lfz1Cjek7HuyVUTWC2bsfedI/rs:fit:520:520:1/g:ce/aHR0cHM6Ly9jbGlw/Z3JvdW5kLmNvbS9p/bWFnZXMvcmVtZXJh/cy1wbmcucG5n",
+  "descripcion": "Remeras de Algodón de excelente calidad, Confeccionamos con telas de primera calidad, Algodón 100% jersey 24/1 de textura suave y liviana.",
+  "codigo": 562132,
+  "stock": 22,
+  "id": 1,
+  "timestamp": "2022-9-30 15:35:8"
+ },
+ {
+  "nombre": "Pantalon",
+  "precio": 777.99,
+  "logo": "https://imgs.search.brave.com/07CrYIGK26bELsUWKiv8yHVe1_AiAfqXuaa9pXARyxw/rs:fit:875:1200:1/g:ce/aHR0cDovL3BsdXNw/bmcuY29tL2ltZy1w/bmcvYmx1ZS1qZWFu/cy1wbmctaGQtZGFt/YWdlLWplYW5zLTg3/NS5wbmc",
+  "descripcion": "Pantalón Cargo Hombre de Gabardina Elastizada, Jogger Con Bolsillos al Costado - Excelente calce y confección.",
+  "codigo": 406783,
+  "stock": 12,
+  "id": 2,
+  "timestamp": "2022-9-30 15:38:58"
+ },
+ {
+  "nombre": "Championes",
+  "precio": 1499.99,
+  "logo": "https://imgs.search.brave.com/nTXBbiwPrC-Zf9fjrfTFMbWOBfB-zkLb4uXRM_Ws4CI/rs:fit:1200:1200:1/g:ce/aHR0cDovL3BsdXNw/bmcuY29tL2ltZy1w/bmcvZGFuY2Utc2hv/ZXMtcG5nLWhkLXNu/ZWFrZXItcG5nLXRy/YW5zcGFyZW50LWlt/YWdlLTI1MDAucG5n",
+  "descripcion": "Las zapatillas fabricadas con suela de goma tienen mayor resistencia al desgaste, son naturalmente impermeables y flexibles, y además extienden la estabilidad de la contracción.",
+  "codigo": 583759,
+  "stock": 8,
+  "id": 3,
+  "timestamp": "2022-9-30 15:41:45"
+ }
+]
