@@ -63,15 +63,21 @@ class ContenedorMongo {
       const producto = await this.productos.findOne({_id: idProd})
       const agregar = this.db.updateOne(
         { _id: id },
-        { }
+        { $push: { productosList: producto }}
      )
      return agregar;  
     } catch(e) {
       console.log(e);
     }
   }
-  deleteById(idEntered, idProd){
+  async deleteById(idEntered, idProd){
     try{
+      console.log(idProd);
+
+      const ok = await this.db.updateOne(
+        { "_id": idEntered },
+        { $pull: { productosList: { _id: mongoose.Types.ObjectId(idProd)}}});
+
 
     } catch(e){
       console.log(e);

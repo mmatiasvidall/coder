@@ -1,69 +1,101 @@
-import admin from 'firebase-admin';
-import FirebaseDetails from '../../DB/firebase.js'
+import admin from "firebase-admin";
+import { FieldValue } from "firebase-admin/firestore";
+import FirebaseDetails from "../../DB/firebase.js";
 
 admin.initializeApp({
   credential: admin.credential.cert(FirebaseDetails),
-  databaseURL: "https://ecommerce-46191.firebaseio.com"
+  databaseURL: "https://ecommerce-46191.firebaseio.com",
 });
 
-console.log("conectado");
-
-const db = admin.firestore()
-
-
+const db = admin.firestore();
 
 class ContenedorFire {
   constructor(coleccion) {
-    this.db = db
-    this.coll = db.collection(coleccion)
+    this.db = db;
+    this.coll = db.collection(coleccion);
+    this.collprod = db.collection("productos");
   }
+
+  async getAll() {
+    try {
+      const result = await this.coll.get();
+      const docs = result.docs;
+      const productos = docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+      console.log(productos);
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
   async save(prod) {
     try {
-
+      const producto = await this.coll.add(prod);
+      return producto;
     } catch (e) {
       console.log(e);
     }
   }
-  async saveCarrito(prod) {
-    try {
 
+  async saveCarrito() {
+    try {
+      const carrito = await this.coll.add({ prodList: [] });
+      return carrito;
     } catch (e) {
       console.log(e);
     }
-    }
+  }
+
   async getById(id) {
     try {
-
+      const result = await this.coll.doc(id).get();
+      console.log(result);
     } catch (e) {
       console.log(e);
     }
   }
+
   async update(prod) {
     try {
-
-    } catch(e) {
-      console.log(e);
-    }
-  }
-  async delete(id) {
-    try{
-
+      const id = prod.id;
+      const doc = this.coll.doc(`${id}`);
+      const item = await doc.update(prod);
+      console.log(item);
     } catch (e) {
       console.log(e);
     }
   }
-  async pushProdCarrito(idEntered, idProd){
-    try {
 
-    } catch(e) {
+  async delete(id) {
+    try {
+      const doc = this.coll.doc(`${id}`);
+      const item = await doc.delete();
+      console.log(item);
+    } catch (e) {
       console.log(e);
     }
   }
-  deleteById(idEntered, idProd){
-    try{
 
-    } catch(e){
+  async pushProdCarrito(idEntered, idProd) {
+    try {
+      const carritoRef = this.coll.doc(idEntered);
+      await carritoRef.update({
+        prodList: FieldValue.arrayUnion(idProd),
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  }
+
+  async deleteById(idEntered, idProd) {
+    try {
+      const carritoRef = this.coll.doc(idEntered);
+      await carritoRef.update({
+        prodList: FieldValue.arrayRemove(idProd),
+      });
+    } catch (e) {
       console.log(e);
     }
   }
 }
+
+export default ContenedorFire;

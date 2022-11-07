@@ -1,9 +1,9 @@
 import ContenedorArchivo from '../../contenedores/contenedorArchivo.js'
 
-class DAOProductosArchivo extends ContenedorArchivo {
+class DAOCarritosArchivo extends ContenedorArchivo {
   constructor () {
-  super(archivo)
+    super(archivo)
   }
 }
 
-export default DAOProductosArchivo;
+export default DAOCarritosArchivo;
