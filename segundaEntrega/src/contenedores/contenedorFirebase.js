@@ -47,8 +47,10 @@ class ContenedorFire {
 
   async getById(id) {
     try {
-      const result = await this.coll.doc(id).get();
-      console.log(result);
+      const doc = this.coll.doc(`${id}`);
+      const item = await doc.get();
+      const response = item.data();
+      return response;
     } catch (e) {
       console.log(e);
     }
@@ -77,9 +79,14 @@ class ContenedorFire {
 
   async pushProdCarrito(idEntered, idProd) {
     try {
+      const doc = this.collprod.doc(`${idProd}`);
+      const item = await doc.get();
+      const response = item.data();
+      console.log(response);
+
       const carritoRef = this.coll.doc(idEntered);
       await carritoRef.update({
-        prodList: FieldValue.arrayUnion(idProd),
+        prodList: FieldValue.arrayUnion(response),
       });
     } catch (e) {
       console.log(e);
