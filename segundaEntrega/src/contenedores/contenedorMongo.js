@@ -6,14 +6,6 @@ await mongoose.connect(config.mongoDB.uri, config.mongoDB.options);
 class ContenedorMongo {
   constructor(coleccion, esquema) {
     this.db = mongoose.model(coleccion, esquema);
-    this.productos = mongoose.model("productos", {
-      nombre: String,
-      precio: Number,
-      logo: String,
-      descripcion: String,
-      codigo: Number,
-      stock: Number,
-    });
   }
   async getAll() {
     try {
@@ -25,6 +17,7 @@ class ContenedorMongo {
   }
   async save(prod) {
     try {
+      prod.timestamp = Date.now();
       const producto = await this.db.create(prod);
       return producto;
     } catch (e) {
@@ -58,12 +51,11 @@ class ContenedorMongo {
       console.log(e);
     }
   }
-  async pushProdCarrito(id, idProd) {
+  async pushProdCarrito(id, obj) {
     try {
-      const producto = await this.productos.findOne({ _id: idProd });
       const agregar = this.db.updateOne(
         { _id: id },
-        { $push: { productosList: producto } }
+        { $push: { productosList: obj } }
       );
       return agregar;
     } catch (e) {
@@ -72,12 +64,11 @@ class ContenedorMongo {
   }
   async deleteById(idEntered, idProd) {
     try {
-      console.log(idProd);
-
-      const ok = await this.db.updateOne(
+      const kick = await this.db.updateOne(
         { _id: idEntered },
         { $pull: { productosList: { _id: mongoose.Types.ObjectId(idProd) } } }
       );
+      return kick;
     } catch (e) {
       console.log(e);
     }

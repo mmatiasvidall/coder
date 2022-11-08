@@ -29,6 +29,7 @@ class ContenedorFire {
 
   async save(prod) {
     try {
+      prod.timestamp = Date.now();
       const producto = await this.coll.add(prod);
       return producto;
     } catch (e) {
