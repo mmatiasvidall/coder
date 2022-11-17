@@ -1,15 +1,17 @@
-import connection from "./conf/dbConf.js";
-import connectionLite from "./conf/dbConfigLite.js";
-import DBclass from "./contenedor.js";
-const DB = new DBclass(connection, "productos");
-const DBl = new DBclass(connectionLite, "mensajes");
+import DBclass from "./contenedores/contenedor.js";
+import DBClass from "./contenedores/contenedorArchivos.js";
+const DBM = new DBClass("./DB/msj.json");
+const DBP = new DBclass("productos", {
+  nombre: String,
+  precio: Number,
+  logo: String,
+});
 
 import randomProd from "./faker.js";
 import express from "express";
 import { Server as HTTPServer } from "http";
 import { Server as SocketServer } from "socket.io";
 import handlebars from "express-handlebars";
-import productos from "./faker.js";
 const app = express();
 const httpserver = new HTTPServer(app);
 const io = new SocketServer(httpserver);
@@ -40,18 +42,17 @@ app.get("/api/productos-test", (req, res) => {
 });
 /////////////////////////////////////////////////////
 io.on("connection", async function (socket) {
-  const mensajes = await DBl.getAll();
-  const productos = await DB.getAll();
-  console.log("usuario conectado");
+  const mensajes = DBM.getAll();
+  const productos = await DBP.getAll();
   socket.emit("mensajes", mensajes);
   socket.emit("productos", productos);
 
-  socket.on("new_msg", async (data) => {
-    await DBl.insertProd(data);
+  socket.on("new_msg", (data) => {
+    DBM.save(data);
     io.sockets.emit("mensajes", mensajes);
   });
   socket.on("new_producto", async (prod) => {
-    await DB.insertProd(prod);
+    await DBP.insertProd(prod);
     io.sockets.emit("productos", productos);
   });
 });

@@ -7,7 +7,7 @@ const productos = () => {
   return {
     nombre: commerce.product(),
     precio: commerce.price(1, 7000, 1, "$"),
-    logo: image.fashion(50, 50, true),
+    logo: image.food(50, 50, true),
   };
 };
 export default productos;

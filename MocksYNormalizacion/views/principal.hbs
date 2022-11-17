@@ -23,34 +23,6 @@
   </head>
 
   <body>
-    <!--///////////////Formulario//////////////////////-->
-    <h2>Agregar Producto</h2>
-    <form onsubmit="return enviarProducto(this)">
-      Nombre <input placeholder="nombre" type="text" id="nombreProd" name="nombreProd"/>
-      Precio <input placeholder="precio" type="text" id="precio" name="precio"/>
-      Logo Url <input placeholder="url imagen" type="text" id="logo" name="logo"/>
-      <button>Enviar</button>
-    </form>
-    <!--////////////// TABLA ///////////////////-->
-    <main role="main" class="container">
-      <h1 class="mt-5">Productos</h1>
-      <table class="table table-dark">
-        <thead>
-          <tr>
-            <th scope="col">Nombre</th>
-            <th scope="col">Precio</th>
-            <th scope="col">Logo</th>
-          </tr>
-        </thead>
-        <tbody id="productos"> 
-          <tr>
-            <th scope="col"></th>
-            <th scope="col"></th>
-            <th scope="col"><img class="mb-4" src="" alt="" width="50" height="50"/></th>
-          </tr>
-        </tbody>
-      </table>
-    </main>
     <!--//////////////////CHAT/////////////////////-->
 <body>
     <div class="container">
@@ -93,10 +65,42 @@
                   <div class="input-group mb-0">
                     <div class="input-group-append">
                         <input
-                        id="nombre"
+                        id="id"
                         type="email"
                         class="form-control"
                         placeholder="Correo"
+                        required
+                        />
+                        <input
+                        id="nombre"
+                        type="text"
+                        class="form-control"
+                        placeholder="Nombre"
+                        required
+                        />
+                        <input
+                        id="apellido"
+                        type="text"
+                        class="form-control"
+                        placeholder="Apellido"
+                        required
+                        /><input
+                        id="edad"
+                        type="number"
+                        class="form-control"
+                        placeholder="Edad"
+                        required
+                        /><input
+                        id="alias"
+                        type="text"
+                        class="form-control"
+                        placeholder="Alias"
+                        required
+                        /><input
+                        id="avatar"
+                        type="text"
+                        class="form-control"
+                        placeholder="Avatar"
                         required
                         />
                         <input
