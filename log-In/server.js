@@ -3,15 +3,12 @@ import handlebars from "express-handlebars";
 import MongoStore from "connect-mongo";
 import session from "express-session";
 
-import coso from "./construtor.js";
-const cosa = new coso();
-
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(express.static("public"));
 // const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 // mongodb+srv://matias:camion123@cluster0.gf4l1um.mongodb.net/sessions
-
 app.use(
   session({
     secret: "34mf41dij89423djksd",
@@ -35,9 +32,10 @@ app.set("views", "./public/view");
 app.set("view engine", "hbs");
 
 app.get("/", (req, res) => {
-  res.render("main", { layout: "login" });
   if (req.session.user) {
     res.redirect("/logout");
+  } else {
+    res.render("main", { layout: "login" });
   }
 });
 
@@ -57,10 +55,10 @@ app.get("/logout", (req, res) => {
 app.get("/desloguear", (req, res) => {
   res.render("main", { layout: "desloguear", nombre: req.session.user });
   req.session.destroy();
-  function time() {
-    res.redirect("/");
-  }
-  setTimeout(time, 2000);
+  // function time() {
+  // //   res.redirect("/");
+  // // }
+  // // setTimeout(time, 2000);
 });
 
 app.post("/desloguear", (req, res) => {
