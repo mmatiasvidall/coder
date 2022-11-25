@@ -25,11 +25,14 @@ const io = new SocketServer(httpserver);
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+const advancedOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 app.use(
   session({
     secret: "34mf41dij89423djksd",
     store: MongoStore.create({
-      mongoUrl: "mongodb://localhost:27017/sesiones",
+      mongoUrl:
+        "mongodb+srv://matias:camion123@cluster0.abvq9si.mongodb.net/test",
+      mongoOptions: advancedOptions,
       ttl: 600,
     }),
     resave: true,
