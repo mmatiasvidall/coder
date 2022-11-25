@@ -1,5 +1,4 @@
 import mongoose from "mongoose";
-import { arch } from "os";
 import config from "../config.js";
 
 await mongoose.connect(config.mongoDB.uri, config.mongoDB.options);

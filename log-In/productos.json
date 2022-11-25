@@ -1,0 +1,17 @@
+[
+  {
+    "nombre": "Calculadora",
+    "precio": 300,
+    "logo": "https://cdn3.iconfinder.com/data/icons/bitcoins-18/64/cryptocurrency-digital_money-bitcoin-calulator-512.png"
+  },
+  {
+    "nombre": "Camara",
+    "precio": 30,
+    "logo": "https://cdn0.iconfinder.com/data/icons/photographic-equipment-2/64/VIDEO_CAMRA-video_camera-entertainment-electronics-television-512.png"
+  },
+  {
+    "nombre": "Lapiz",
+    "precio": 35,
+    "logo": "https://cdn0.iconfinder.com/data/icons/economico-a-business-icon-set/74/pencil-lapis-512.png"
+  }
+]
