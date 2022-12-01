@@ -19,7 +19,7 @@ const DBM = new contenedor("mensajes", {
   date: String,
 });
 const DBU = new contenedor("usuarios", {
-  email: String,
+  username: String,
   password: String,
 });
 
@@ -86,7 +86,6 @@ passport.use(
   new Strategy(
     { passReqToCallback: true },
     async (req, username, password, done) => {
-      const { email } = req.body;
       await DBU.findOne({ username }, async (err, user) => {
         if (user) return done(null, false);
         await DBU.save({ email, password }, (err, user) => {
