@@ -22,10 +22,13 @@
     <link rel="stylesheet" href="../css/style.css" />
   </head>
 
-  <body><form action="/desloguear" method="get">
-    <h1>Bienvenido {{nombre}}</h1>
-    <button>Volver</button>
-  </form>
+  <body>
+  <div clas="bienvenido">
+    <form action="/desloguear" method="get">
+      <h1>Bienvenido {{nombre}}</h1>
+      <button>desloguear</button>
+    </form>
+  </div> 
     <!--///////////////Formulario//////////////////////-->
     <h2>Agregar Producto</h2>
     <form onsubmit="return enviarProducto(this)">
