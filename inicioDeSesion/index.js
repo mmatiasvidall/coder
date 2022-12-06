@@ -7,6 +7,7 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
 import { Strategy } from "passport-local";
+import bcrypt from "bcrypt";
 
 const DBP = new contenedor("productos", {
   nombre: String,
@@ -52,8 +53,13 @@ app.use(passport.session());
 passport.serializeUser((user, done) => {
   done(null, user._id);
 });
-passport.deserializeUser((id, done) => {
-  DBU.findById(id, done);
+passport.deserializeUser(async (id, done) => {
+  try {
+    const user = await DBU.findByid(id);
+    done(null, user);
+  } catch (e) {
+    done(e);
+  }
 });
 
 //////////Handlebars////////////////////
@@ -81,55 +87,67 @@ app.get("/", (req, res) => {
   }
 });
 
+const hashPassword = (password) =>
+  bcrypt.hashSync(password, bcrypt.genSaltSync(10));
+
 passport.use(
   "register",
   new Strategy(
     { passReqToCallback: true },
     async (req, username, password, done) => {
-      await DBU.findOne({ username }, async (err, user) => {
-        if (user) return done(null, false);
-        await DBU.save({ email, password }, (err, user) => {
-          if (err) return done(err);
-
-          return done(null, user);
-        });
-      });
+      try {
+        const userExist = await DBU.findOne({ username, password });
+        if (userExist) return done(null, false);
+        const user = { username, password: hashPassword(password) };
+        const createUser = await DBU.save(user);
+        return done(null, createUser);
+      } catch (e) {
+        return done(e);
+      }
     }
   )
 );
 
 passport.use(
   "login",
-  new Strategy({}, (username, password, done) => {
-    DBU.findOne({ username, password }, (err, user) => {
-      if (err) return done(err);
-      if (!user) return done(null, false);
-      done(null, user);
-    });
-  })
+  new Strategy(
+    { passReqToCallback: true },
+    async (req, username, password, done) => {
+      await DBU.findOne({ username, password }, (err, user) => {
+        if (err) return done(err);
+        if (!user) return done(null, false);
+        done(null, user);
+      });
+    }
+  )
 );
 
 app.post(
   "/login",
   passport.authenticate("login", { failureRedirect: "/errorlogin" }),
   (req, res) => {
+    req.session.user = req.body.username;
     res.redirect("/");
   }
 );
+
 app.post(
   "/register",
   passport.authenticate("register", { failureRedirect: "/errorregister" }),
   (req, res) => {
+    req.session.user = req.body.username;
     res.redirect("/");
   }
 );
 
 app.get("/login", (req, res) => {
-  res.render("main", { layout: "login" });
+  if (req.session.user) res.redirect("/");
+  if (!req.session.user) res.render("main", { layout: "login" });
 });
 
 app.get("/register", (req, res) => {
-  res.render("main", { layout: "register" });
+  if (req.session.user) res.redirect("/");
+  if (!req.session.user) res.render("main", { layout: "register" });
 });
 
 app.get("/errorlogin", (req, res) => {

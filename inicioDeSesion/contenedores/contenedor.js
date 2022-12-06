@@ -38,6 +38,14 @@ class ContenedorMongo {
       console.log(e);
     }
   }
+  async findByid(id) {
+    try {
+      const user = await this.db.findById(id);
+      return user;
+    } catch (e) {
+      console.log(e);
+    }
+  }
 }
 
 export default ContenedorMongo;
