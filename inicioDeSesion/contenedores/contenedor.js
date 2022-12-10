@@ -7,6 +7,10 @@ class ContenedorMongo {
   constructor(coleccion, esquema) {
     this.db = mongoose.model(coleccion, esquema);
   }
+  async find(data) {
+    const user = this.db.find(data);
+    return user;
+  }
   async getAll() {
     try {
       const producto = await this.db.find({});
@@ -23,17 +27,20 @@ class ContenedorMongo {
       console.log(e);
     }
   }
-  faker() {
+  async faker() {
     const lista = [];
     for (let i = 0; i < 5; i++) {
       lista.push(randomProd());
     }
     return lista;
   }
-  async findOne(id) {
+  async findOne(user) {
     try {
-      const user = await this.db.findOne({ username: id });
-      return user;
+      const user1 = await this.db.findOne({
+        username: user.username,
+        password: user.password,
+      });
+      return user1;
     } catch (e) {
       console.log(e);
     }

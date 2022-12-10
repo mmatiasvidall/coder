@@ -6,8 +6,8 @@ import contenedor from "./contenedores/contenedor.js";
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import passport from "passport";
-import { Strategy } from "passport-local";
-import bcrypt from "bcrypt";
+
+import pass from "./router/passport/pass.js";
 
 const DBP = new contenedor("productos", {
   nombre: String,
@@ -19,11 +19,8 @@ const DBM = new contenedor("mensajes", {
   msj: String,
   date: String,
 });
-const DBU = new contenedor("usuarios", {
-  username: String,
-  password: String,
-});
 
+/////////////////////////////////////////
 const app = express();
 const httpserver = new HTTPServer(app);
 const io = new SocketServer(httpserver);
@@ -47,21 +44,9 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static("public"));
+
 app.use(passport.initialize());
 app.use(passport.session());
-
-passport.serializeUser((user, done) => {
-  done(null, user._id);
-});
-passport.deserializeUser(async (id, done) => {
-  try {
-    const user = await DBU.findByid(id);
-    done(null, user);
-  } catch (e) {
-    done(e);
-  }
-});
-
 //////////Handlebars////////////////////
 const hbs = handlebars.engine({
   extname: "hbs",
@@ -73,12 +58,7 @@ app.engine("hbs", hbs);
 app.set("views", "./public/views");
 app.set("view engine", "hbs");
 
-//////////Funciones//////////////////
-app.get("/api/productos-test", (req, res) => {
-  const lista = DBP.faker();
-  res.render("main", { layout: "test", productos: lista });
-});
-
+//////////Funciones////////////////////
 app.get("/", (req, res) => {
   if (!req.session.user) {
     res.redirect("/login");
@@ -87,77 +67,16 @@ app.get("/", (req, res) => {
   }
 });
 
-const hashPassword = (password) =>
-  bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-
-passport.use(
-  "register",
-  new Strategy(
-    { passReqToCallback: true },
-    async (req, username, password, done) => {
-      try {
-        const userExist = await DBU.findOne({ username, password });
-        if (userExist) return done(null, false);
-        const user = { username, password: hashPassword(password) };
-        const createUser = await DBU.save(user);
-        return done(null, createUser);
-      } catch (e) {
-        return done(e);
-      }
-    }
-  )
-);
-
-passport.use(
-  "login",
-  new Strategy(
-    { passReqToCallback: true },
-    async (req, username, password, done) => {
-      await DBU.findOne({ username, password }, (err, user) => {
-        if (err) return done(err);
-        if (!user) return done(null, false);
-        done(null, user);
-      });
-    }
-  )
-);
-
-app.post(
-  "/login",
-  passport.authenticate("login", { failureRedirect: "/errorlogin" }),
-  (req, res) => {
-    req.session.user = req.body.username;
-    res.redirect("/");
-  }
-);
-
-app.post(
-  "/register",
-  passport.authenticate("register", { failureRedirect: "/errorregister" }),
-  (req, res) => {
-    req.session.user = req.body.username;
-    res.redirect("/");
-  }
-);
-
-app.get("/login", (req, res) => {
-  if (req.session.user) res.redirect("/");
-  if (!req.session.user) res.render("main", { layout: "login" });
+app.get("/desloguear", (req, res) => {
+  res.render("main", { layout: "desloguear", nombre: req.session.user });
+  req.session.destroy();
 });
 
-app.get("/register", (req, res) => {
-  if (req.session.user) res.redirect("/");
-  if (!req.session.user) res.render("main", { layout: "register" });
+app.post("/desloguear", (req, res) => {
+  res.redirect("/");
 });
 
-app.get("/errorlogin", (req, res) => {
-  res.render("main", { layout: "/errorlogin" });
-});
-
-app.get("/errorregister", (req, res) => {
-  res.render("main", { layout: "errorregister" });
-});
-
+app.use(pass);
 ///////////Socket/////////////////////
 io.on("connection", async function (socket) {
   const mensajes = await DBM.getAll();
@@ -174,7 +93,6 @@ io.on("connection", async function (socket) {
     io.sockets.emit("productos", productos);
   });
 });
-
 //////////////Starting/////////////////
 httpserver.listen(8080, (req, res) => {
   console.log("Iniciando");
